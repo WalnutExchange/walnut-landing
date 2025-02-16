@@ -1,26 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Check } from "lucide-react";
 
-export function WaitlistForm() {
+export type WaitlistFormRef = {
+  openForm: () => void;
+};
+
+export const WaitlistForm = forwardRef<WaitlistFormRef>((props, ref) => {
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    companyName: "",
+    email: "",
+    linkedinUrl: "",
+  });
+
+  useImperativeHandle(ref, () => ({
+    openForm: () => {
+      setShowWaitlist(true);
+      document
+        .getElementById("waitlist-form")
+        ?.scrollIntoView({ behavior: "smooth" });
+
+      // Focus the first name input after the scroll animation completes
+      setTimeout(() => {
+        document
+          .querySelector<HTMLInputElement>('input[name="firstName"]')
+          ?.focus();
+      }, 800);
+    },
+  }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the email to your backend
-    console.log("Submitted email:", email);
+    // Here you would typically send the form data to your backend
+    console.log("Submitted data:", formData);
 
     // Show success message
     setShowWaitlist(false);
     setShowSuccess(true);
 
     // Reset form
-    setEmail("");
+    setFormData({
+      firstName: "",
+      lastName: "",
+      companyName: "",
+      email: "",
+      linkedinUrl: "",
+    });
 
     // Hide success message after 5 seconds
     setTimeout(() => {
@@ -28,13 +60,19 @@ export function WaitlistForm() {
     }, 5000);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return (
-    <div className='relative'>
+    <div id='waitlist-form' className='space-y-4 scroll-mt-32'>
       <div
         className={`transform transition-all duration-300 ease-in-out ${
-          showWaitlist || showSuccess
-            ? "opacity-0 scale-95"
-            : "opacity-100 scale-100"
+          showWaitlist || showSuccess ? "hidden" : "block"
         }`}
       >
         <Button
@@ -47,24 +85,64 @@ export function WaitlistForm() {
       </div>
 
       <div
-        className={`absolute top-0 left-0 w-full transform transition-all duration-300 ease-in-out ${
-          showWaitlist
-            ? "opacity-100 scale-100"
-            : "opacity-0 scale-95 pointer-events-none"
+        className={`transform transition-all duration-300 ease-in-out ${
+          showWaitlist ? "block" : "hidden"
         }`}
       >
-        <form onSubmit={handleSubmit} className='flex gap-2'>
+        <form
+          onSubmit={handleSubmit}
+          className='flex flex-col gap-3 sm:max-w-md'
+        >
+          <div className='grid grid-cols-2 gap-3'>
+            <Input
+              type='text'
+              name='firstName'
+              placeholder='First name'
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              className='rounded-full py-4 px-6 border-gray-300 focus:border-gray-900 focus:ring-gray-900'
+            />
+            <Input
+              type='text'
+              name='lastName'
+              placeholder='Last name'
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              className='rounded-full py-4 px-6 border-gray-300 focus:border-gray-900 focus:ring-gray-900'
+            />
+          </div>
+          <Input
+            type='text'
+            name='companyName'
+            placeholder='Company name'
+            value={formData.companyName}
+            onChange={handleChange}
+            required
+            className='rounded-full py-4 px-6 border-gray-300 focus:border-gray-900 focus:ring-gray-900'
+          />
           <Input
             type='email'
-            placeholder='Enter your email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name='email'
+            placeholder='Email address'
+            value={formData.email}
+            onChange={handleChange}
             required
-            className='rounded-full py-4 px-6 flex-1 border-gray-300 focus:border-gray-900 focus:ring-gray-900'
+            className='rounded-full py-4 px-6 border-gray-300 focus:border-gray-900 focus:ring-gray-900'
+          />
+          <Input
+            type='url'
+            name='linkedinUrl'
+            placeholder='LinkedIn profile URL'
+            value={formData.linkedinUrl}
+            onChange={handleChange}
+            required
+            className='rounded-full py-4 px-6 border-gray-300 focus:border-gray-900 focus:ring-gray-900'
           />
           <Button
             type='submit'
-            className='bg-gray-900 hover:bg-gray-800 text-white rounded-full px-6 py-4 inline-flex items-center justify-center transition-colors'
+            className='bg-gray-900 hover:bg-gray-800 text-white rounded-full px-6 py-4 inline-flex items-center justify-center transition-colors w-full'
           >
             Submit
           </Button>
@@ -72,10 +150,8 @@ export function WaitlistForm() {
       </div>
 
       <div
-        className={`absolute top-0 left-0 w-full transform transition-all duration-300 ease-in-out ${
-          showSuccess
-            ? "opacity-100 scale-100"
-            : "opacity-0 scale-95 pointer-events-none"
+        className={`transform transition-all duration-300 ease-in-out ${
+          showSuccess ? "block" : "hidden"
         }`}
       >
         <div className='flex items-center gap-2 text-gray-900'>
@@ -89,4 +165,4 @@ export function WaitlistForm() {
       </div>
     </div>
   );
-}
+});
