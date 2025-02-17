@@ -4,9 +4,9 @@
 <svg
    version="1.1"
    id="svg1"
-   width="600"
-   height="600"
-   viewBox="0 0 600 600"
+   width="200"
+   height="200"
+   viewBox="520 365 325 335"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
@@ -28,8 +28,7 @@
   </g>
   <g
      id="layer1"
-     style="display:inline"
-     transform="translate(-385.93835,-343.82985)">
+     style="display:inline">
     <path
        id="path1"
        style="display:inline;fill:#000000;stroke-width:1.013"

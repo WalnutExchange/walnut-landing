@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500" height="500" viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M250 50
+    C 250 50, 150 100, 150 200
+    C 150 250, 200 300, 250 300
+    C 300 300, 350 250, 350 200
+    C 350 100, 250 50, 250 50
+    M 250 300
+    L 250 400
+    M 150 400
+    L 350 400
+    M 200 450
+    C 200 450, 250 420, 300 450
+    M 180 150
+    C 180 150, 220 180, 250 150
+    C 280 180, 320 150, 320 150
+    M 200 200
+    C 200 200, 250 230, 300 200"
+    fill="none" stroke="#000" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
