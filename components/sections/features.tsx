@@ -55,14 +55,16 @@ export function Features() {
   return (
     <section className='py-16 bg-gray-50 w-full'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='lg:grid lg:grid-cols-3 lg:gap-8'>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className={index > 0 ? "mt-10 lg:mt-0" : ""}
+              className={`text-center lg:text-left ${
+                index > 0 ? "mt-0 lg:mt-0" : ""
+              }`}
             >
               <div
-                className={`flex items-center justify-center h-12 w-12 rounded-md ${feature.bgColor} text-gray-50`}
+                className={`flex items-center justify-center h-12 w-12 rounded-md ${feature.bgColor} text-gray-50 mx-auto lg:mx-0`}
               >
                 <feature.icon className='h-6 w-6' />
               </div>
@@ -70,7 +72,7 @@ export function Features() {
                 <h2 className='text-lg font-medium text-gray-900'>
                   {feature.title}
                 </h2>
-                <p className='mt-2 text-base text-gray-600'>
+                <p className='mt-2 text-base text-gray-600 max-w-sm mx-auto lg:mx-0'>
                   {feature.description}
                 </p>
               </div>
